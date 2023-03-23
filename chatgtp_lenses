@@ -1,6 +1,6 @@
 % Definir los parámetros del sistema
 wavelength = 0.5; % Longitud de onda de la luz en micras
-lens_focal_length = 10; % Distancia focal de la lente en mm
+lens_focal_length = 10; % Distancia focal de la lente en mm.
 lens_diameter = 2; % Diámetro de la lente en mm
 image_plane_distance = 10; % Distancia de la imagen en mm
 image_plane_size = 10; % Tamaño de la imagen en mm
