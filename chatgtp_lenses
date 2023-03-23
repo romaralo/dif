@@ -1,0 +1,42 @@
+% Definir los parámetros del sistema
+wavelength = 0.5; % Longitud de onda de la luz en micras
+lens_focal_length = 10; % Distancia focal de la lente en mm
+lens_diameter = 2; % Diámetro de la lente en mm
+image_plane_distance = 10; % Distancia de la imagen en mm
+image_plane_size = 10; % Tamaño de la imagen en mm
+
+% Crear un objeto de prueba
+object_size = 5; % Tamaño del objeto en mm
+object_resolution = 1024; % Resolución del objeto en píxeles
+[x, y] = meshgrid(linspace(-object_size/2, object_size/2, object_resolution));
+object =imread('dibujo_A.jpg'); %read image file 
+object= rgb2gray(object);
+object = imresize(object,[object_resolution object_resolution]);
+
+% Calcular la transformada de Fourier del objeto
+object_ft = fftshift(fft2(object));
+
+% Calcular la función de transferencia de la lente
+lens_aperture = zeros(object_resolution);
+lens_aperture(sqrt(x.^2 + y.^2) <= lens_diameter/2) = 1;
+lens_ft = exp(-1i*pi*wavelength*lens_focal_length*(x.^2 + y.^2));
+
+% Calcular la imagen formada por la lente
+image_ft = object_ft .* lens_ft .* lens_aperture;
+image = real(ifft2(ifftshift(image_ft)));
+
+% Recortar la imagen para el tamaño deseado
+image_size = round(object_resolution * image_plane_size / object_size);
+image_x = round(object_resolution/2 - image_size/2) : round(object_resolution/2 + image_size/2 - 1);
+image_y = round(object_resolution/2 - image_size/2) : round(object_resolution/2 + image_size/2 - 1);
+%image = image(image_x, image_y);
+
+% Visualizar la imagen formada
+x = linspace(-image_plane_size/2, image_plane_size/2, image_size);
+y = linspace(-image_plane_size/2, image_plane_size/2, image_size);
+figure(77)
+imagesc(x, y, image);
+axis image;
+colormap gray;
+xlabel('Distancia (mm)');
+ylabel('Distancia (mm)');
