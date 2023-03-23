@@ -1,4 +1,4 @@
-% Usamos el propagador de función de transferencia de Fresnel.
+% Usamos el propagador de función de transferencia de Fresnel. Intento meterlo con lentes.
 
 function u2=propTF_lens(u1,L,lambda,z,rad,f,X1,Y1); 
 % propagation - transfer function approach 
