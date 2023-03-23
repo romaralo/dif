@@ -1,0 +1,28 @@
+% sqr_beam propagation example 
+%
+L1=100*10^-6 %*10^-3; %side length (mm)
+M=512; %number of samples 
+dx1=L1/M; %src sample interval 
+x1=-L1/2:dx1:L1/2-dx1; %src coords 
+y1=x1;
+
+lambda=500*10^-9; %wavelength (mm)
+k=2*pi/lambda; %wavenumber 
+r=30*10^-6 % REPRESENTA DIÁMETRO REALMENTE
+z=50*10^-6; %propagation dist (mm) 
+
+[X1,Y1]=meshgrid(x1,y1); 
+u1=circ(r,X1,Y1,M); %src field 
+%u1=circ1(sqrt(X1.^2+Y1.^2)/w). ESTA SERÍA POR EJEMPLO UNA ABERTURA
+%CIRCULAR
+I1=abs(u1.^2); %src irradiance 
+%
+figure(1) 
+imagesc(x1,y1,I1); 
+axis square; axis xy; 
+colormap('gray'); xlabel('x (m)'); ylabel('y (m)'); 
+title('z= 0 m');
+
+figure(2) %irradiance profile 
+plot(x1,I1(M/2+1,:)); 
+xlabel('x (mm)'); ylabel('Irradiancia'); 
